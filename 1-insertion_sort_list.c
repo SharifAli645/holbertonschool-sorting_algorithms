@@ -11,10 +11,11 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *head = *list, *temp, *aux;
+	listint_t *head = NULL, *temp = NULL, *aux = NULL;
 
-	if (!(*list))
+	if (!list)
 		return;
+	head = *list;
 	while (head)
 	{
 		temp = head;
