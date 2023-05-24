@@ -1,41 +1,98 @@
 #include "sort.h"
+
 /**
- * quick_sort - function that sorts an array of integers in ascending order
- * using the Quick sort algorithm
- * @array: array of integers
- * @size: size of the array
+ * swap - function to swap two values
+ * @i: The first element to swap
+ * @j: The second element to swap
  *
- * Return: always void
- **/
+ * Return: Always void
+ *
+ */
+void swap(int *i, int *j)
+{
+	int tmp = *i;
+	*i = *j;
+	*j = tmp;
+}
+
+/**
+ * lomuto - function to make partition lomuto
+ * @array: The array containing data
+ * @size: The size of the array
+ * @low: The index 0
+ * @g_size: The real size of the array
+ *
+ * Using bubble sort algorithm, sort an array
+ *
+ * Return: Always void
+ *
+ */
+size_t lomuto(int *array, int low, int size, size_t g_size)
+{
+	int j, i = low;
+	int pivot = array[size];
+
+	j = low;
+	while (j < size)
+	{
+		if (array[j] <= pivot)
+		{
+			swap(&array[i], &array[j]);
+			if (array[i] != array[j])
+				print_array(array, g_size);
+			i++;
+		}
+		j++;
+	}
+	swap(&array[i], &array[size]);
+	if (array[i] != array[size])
+		print_array(array, g_size);
+	return (i);
+
+}
+
+/**
+ * quick - function to sort an array in ascending order
+ * @array: The array containing data
+ * @size: The size of the array
+ * @low: The index 0
+ * @g_size: The real size of the array
+ *
+ * Using bubble sort algorithm, sort an array
+ *
+ * Return: Always void
+ *
+ */
+void quick(int *array, int low, int size, size_t g_size)
+{
+	int part;
+
+	if (low >= size)
+		return;
+
+	part = lomuto(array, low, size, g_size);
+
+	quick(array, low, part - 1, g_size);
+	quick(array, part + 1, size, g_size);
+
+}
+
+/**
+ * quick_sort - function to sort an array in ascending order
+ * @array: The array containing data
+ * @size: The size of the array
+ *
+ * Using bubble sort algorithm, sort an array
+ *
+ * Return: Always void
+ *
+ */
 void quick_sort(int *array, size_t size)
 {
-	int pv, tmp, i = 0, j;
+	size_t g_size;
 
-	if (array == NULL || size < 1)
+	if (!array || size < 1)
 		return;
-	pv = size - 1;
-	while (&array[pv] != &array[i])
-	{
-		while (array[i] < array[pv] && &array[pv] != &array[i])
-			i++;
-		if (&array[pv] == &array[i])
-		{
-			pv--;
-			i = 0;
-			continue;
-		}
-		j = i;
-		while (array[j] >= array[pv] && &array[pv] != &array[j])
-			j++;
-		tmp = array[j];
-		array[j] = array[i];
-		array[i] = tmp;
-		print_array(array, size);
-
-		if (&array[pv] == &array[j])
-		{
-			continue;
-		}
-		i++;
-	}
+	g_size = size;
+	quick(array, 0, size - 1, g_size);
 }
