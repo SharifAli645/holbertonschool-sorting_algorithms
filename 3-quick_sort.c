@@ -27,18 +27,15 @@ void quick_sort(int *array, size_t size)
 		j = i;
 		while (array[j] >= array[pv] && &array[pv] != &array[j])
 			j++;
-		if (&array[pv] == &array[j])
-		{
-			tmp = array[pv];
-			array[pv] = array[i];
-			array[i] = tmp;
-			print_array(array, size);
-			continue;
-		}
 		tmp = array[j];
 		array[j] = array[i];
 		array[i] = tmp;
 		print_array(array, size);
+
+		if (&array[pv] == &array[j])
+		{
+			continue;
+		}
 		i++;
 	}
 }
